@@ -22,6 +22,11 @@ const TOKEN_ICON_OVERRIDES = new Map([
   [`${ARC_MAINNET_CHAIN_ID}:USDC`, USDC_ICON_URI],
   [`${ARC_MAINNET_CHAIN_ID}:USDCx`, USDC_ICON_URI],
 ]);
+// Celo USDGLOx was created with the literal name "Superundefined" (its on-chain
+// name()). It is listed in the Celo resolver, so keep it and correct the name.
+const TOKEN_NAME_OVERRIDES = new Map([
+  ["42220:0x2e7762ebdcbd3faf45d723f23e851ef4fc4e8617", "Super Glo Dollar"],
+]);
 const ARC_USDC_TOKEN: TokenList["tokens"][number] = {
   chainId: ARC_TESTNET_CHAIN_ID,
   address: ARC_USDC_ADDRESS,
@@ -131,7 +136,9 @@ function sanitizeTokenList(tokenList: TokenList): TokenList {
   // are still invalid (empty or containing inner whitespace).
   const validTokens = activeNetworkTokens
     .map(token => {
-      const name = (token.name ?? "").trim();
+      const name =
+        TOKEN_NAME_OVERRIDES.get(`${token.chainId}:${token.address.toLowerCase()}`) ??
+        (token.name ?? "").trim();
       const symbol = (token.symbol ?? "").trim();
       const logoURI = TOKEN_ICON_OVERRIDES.get(`${token.chainId}:${symbol}`);
 
