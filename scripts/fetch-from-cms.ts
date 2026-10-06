@@ -16,11 +16,14 @@ const ARC_TESTNET_CHAIN_ID = 5042002;
 const ARC_USDC_ADDRESS = "0x3600000000000000000000000000000000000000";
 const ARC_USDCX_ADDRESS = "0x233a5bfd65da07aeb08f2082d2b5b270bc4ea804";
 const USDC_ICON_URI = "https://tokenlist.superfluid.org/icons/usdc.svg";
+const USDGLO_ICON_URI = "https://tokenlist.superfluid.org/icons/usdglo.png";
 const TOKEN_ICON_OVERRIDES = new Map([
   [`${ARC_TESTNET_CHAIN_ID}:USDC`, USDC_ICON_URI],
   [`${ARC_TESTNET_CHAIN_ID}:USDCx`, USDC_ICON_URI],
   [`${ARC_MAINNET_CHAIN_ID}:USDC`, USDC_ICON_URI],
   [`${ARC_MAINNET_CHAIN_ID}:USDCx`, USDC_ICON_URI],
+  ["42220:USDGLO", USDGLO_ICON_URI],
+  ["42220:USDGLOx", USDGLO_ICON_URI],
 ]);
 // Celo USDGLOx was created with the literal name "Superundefined" (its on-chain
 // name()). It is listed in the Celo resolver, so keep it and correct the name.

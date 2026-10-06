@@ -5790,7 +5790,8 @@
           "type": "Wrapper",
           "underlyingTokenAddress": "0x4f604735c1cf31399c6e711d5962b2b3e0225ad3"
         }
-      }
+      },
+      "logoURI": "https://tokenlist.superfluid.org/icons/usdglo.png"
     },
     {
       "chainId": 42220,
@@ -5854,7 +5855,8 @@
       "decimals": 18,
       "tags": [
         "underlying"
-      ]
+      ],
+      "logoURI": "https://tokenlist.superfluid.org/icons/usdglo.png"
     },
     {
       "chainId": 42220,
