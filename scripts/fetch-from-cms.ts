@@ -11,6 +11,7 @@ const CMS_API_BASE_URL = "https://cms.superfluid.pro/tokenlist?isListed=true";
 const ACTIVE_CHAIN_IDS = new Set(
   superfluidMetadata.networks.map((network) => network.chainId)
 );
+const ARC_MAINNET_CHAIN_ID = 5042;
 const ARC_TESTNET_CHAIN_ID = 5042002;
 const ARC_USDC_ADDRESS = "0x3600000000000000000000000000000000000000";
 const ARC_USDCX_ADDRESS = "0x233a5bfd65da07aeb08f2082d2b5b270bc4ea804";
@@ -18,6 +19,8 @@ const USDC_ICON_URI = "https://tokenlist.superfluid.org/icons/usdc.svg";
 const TOKEN_ICON_OVERRIDES = new Map([
   [`${ARC_TESTNET_CHAIN_ID}:USDC`, USDC_ICON_URI],
   [`${ARC_TESTNET_CHAIN_ID}:USDCx`, USDC_ICON_URI],
+  [`${ARC_MAINNET_CHAIN_ID}:USDC`, USDC_ICON_URI],
+  [`${ARC_MAINNET_CHAIN_ID}:USDCx`, USDC_ICON_URI],
 ]);
 const ARC_USDC_TOKEN: TokenList["tokens"][number] = {
   chainId: ARC_TESTNET_CHAIN_ID,
