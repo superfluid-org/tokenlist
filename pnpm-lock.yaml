@@ -15,8 +15,8 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
       '@superfluid-finance/metadata':
-        specifier: ^1.6.4
-        version: 1.6.4
+        specifier: ^1.6.5
+        version: 1.6.5
       '@types/lodash':
         specifier: ^4.17.7
         version: 4.17.7
@@ -4429,8 +4429,8 @@ packages:
       '@sinonjs/commons': 3.0.1
     dev: true
 
-  /@superfluid-finance/metadata@1.6.4:
-    resolution: {integrity: sha512-lqAcodeGsO3DYN6OCx/e0AePU6yAn9wNT6cXwcED/DN+vWsQVEgVsSjY00AzDeCFFjCeomx64zZL917GV7rv2w==}
+  /@superfluid-finance/metadata@1.6.5:
+    resolution: {integrity: sha512-CDM0YInnc/7f/S9VCyD6hQsCtUATA4w26+BXXAUS6ke0JDWfjg+7ev9WXwdiQl1BqfCDQ9X7BOB5k9uI6CXV0g==}
     dev: true
 
   /@szmarczak/http-timer@4.0.6:
