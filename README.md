@@ -160,11 +160,9 @@ are not compared.
 
 | Command | Purpose |
 | --- | --- |
-| `pnpm run editor` | Serves the default list in a JSON editor at `http://localhost:3000`. Get content displays JSON for manual copying; it does not save a file. |
 | `pnpm run codegen:subgraph` | Regenerates committed `subgraph/.graphclient/` from its query/configuration, contacting the configured subgraph. |
-| `pnpm run ipfs:publish <list.json>` | Validates and pins a list to IPFS using `PINATA_API_KEY` and `PINATA_SECRET` from local `.env`. |
 
 The manually dispatched [release workflow](.github/workflows/npm-publish.yml)
 installs with the frozen lockfile, builds the workspace package, and publishes to
-NPM through trusted publishing. IPFS and NPM publishing write externally and are
-not validation checks.
+NPM through trusted publishing. NPM publishing writes externally and is not a
+validation check.

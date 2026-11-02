@@ -11,13 +11,10 @@
     "4.copy:docs": "shx cp superfluid.tokenlist.json superfluid.extended.tokenlist.json docs/",
     "build": "pnpm --filter @superfluid-finance/tokenlist build",
     "diff:lists": "ts-node scripts/diff-lists.ts",
-    "editor": "ts-node editor/server.ts",
-    "codegen:subgraph": "graphclient build --dir ./subgraph",
-    "ipfs:publish": "ts-node scripts/publish.ts"
+    "codegen:subgraph": "graphclient build --dir ./subgraph"
   },
   "devDependencies": {
     "@graphprotocol/client-cli": "^2.2.20",
-    "@pinata/sdk": "^2.1.0",
     "@superfluid-finance/metadata": "^1.6.5",
     "@types/lodash": "^4.17.7",
     "@types/node": "^18.19.46",
@@ -26,15 +23,13 @@
     "@uniswap/token-lists": "1.0.0-beta.34",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
-    "dotenv": "^16.4.5",
     "graphql": "^16.9.0",
     "lodash": "^4.17.21",
     "node-fetch": "2.6.3",
     "rimraf": "^5.0.10",
     "shx": "^0.3.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4",
-    "vanilla-jsoneditor": "^0.16.1"
+    "typescript": "^5.5.4"
   },
   "packageManager": "pnpm@8.6.1"
 }
