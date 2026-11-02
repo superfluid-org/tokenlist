@@ -103,18 +103,21 @@ There is no automated test suite.
 
 The CMS is the source for routine updates. Set the same release version in
 `package.json` and `packages/tokenlist/package.json` before fetching; `1.fetch:cms`
-reads the root version. Run the numbered commands in order, reviewing each output, then build the package:
+reads the root version. Follow the steps below in order, including the manual icon
+step between fetching and ordering, then build the package:
 
 | Command | Input and effect |
 | --- | --- |
 | `pnpm run 1.fetch:cms` | Reads the live CMS, applies repository overrides and active-network filtering, validates the schema, and overwrites `superfluid.extended.tokenlist.unordered.json`. |
+| Manual: add icons for new tokens | Edit `superfluid.extended.tokenlist.unordered.json` to add `logoURI` values for new tokens. Add any new icon files to `docs/icons/` and reference their public URLs. Complete this before ordering the list. |
 | `pnpm run 2.order:tokenlist` | Reads the unordered list and writes `superfluid.extended.tokenlist.json`, preserving chain-group order and sorting each chain by descending `orderingScore`. |
 | `pnpm run 3.filter:mainnet` | Reads the extended list and writes `superfluid.tokenlist.json`, excluding `testnet` tokens and retaining required underlying tokens. |
 | `pnpm run 4.copy:docs` | Copies the default and extended lists to local GitHub Pages assets in `docs/`. |
 | `pnpm run build` | Builds the workspace package locally without publishing. |
 
 Review the unordered, extended, default and `docs/` lists together. Icons are
-maintained manually in `docs/icons/`; fetching does not download them.
+maintained manually in `docs/icons/`; fetching does not download them. Fetching
+again overwrites the unordered list, so recheck manual icon edits after a refetch.
 `3.filter:mainnet` checks schema, underlying-token presence and duplicates per chain,
 but logs validation failures without a failing exit status, so inspect its output.
 
