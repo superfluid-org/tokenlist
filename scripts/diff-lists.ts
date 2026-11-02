@@ -8,22 +8,16 @@ const ignoreExtensions = args[0] === "--ignoreExtensions";
 const paths = ignoreExtensions ? args.slice(1) : args;
 
 if (
-  (paths.length !== 0 && paths.length !== 2) ||
+  paths.length !== 2 ||
   paths.some((arg) => arg.startsWith("--"))
 ) {
   console.error(
-    "Usage: pnpm run diff:lists [--ignoreExtensions] [listA.json listB.json]"
+    "Usage: pnpm run diff:lists [--ignoreExtensions] listA.json listB.json"
   );
   process.exit(1);
 }
 
-let [listA, listB] = paths;
-
-if (!listA && !listB) {
-  console.info("Usage: lists not provided, using current version and draft.");
-  listA = `superfluid.extended.tokenlist.json`;
-  listB = `DRAFT.tokenlist.json`;
-}
+const [listA, listB] = paths;
 
 const listAContents = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, "../", listA), "utf8")

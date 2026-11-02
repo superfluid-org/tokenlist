@@ -13,8 +13,6 @@
     "diff:lists": "ts-node scripts/diff-lists.ts",
     "editor": "ts-node editor/server.ts",
     "codegen:subgraph": "graphclient build --dir ./subgraph",
-    "legacy:bootstrap": "ts-node scripts/bootstrap.ts",
-    "legacy:attach-solvency": "ts-node scripts/attach-solvency-tags.ts",
     "ipfs:publish": "ts-node scripts/publish.ts"
   },
   "devDependencies": {

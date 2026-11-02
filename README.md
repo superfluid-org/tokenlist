@@ -86,8 +86,8 @@ images: {
   
 ## Development
 
-Use Node.js 24 (matching the publishing workflow) and pnpm 8.6.1 (pinned in
-`package.json`). From the repository root:
+Use Node.js 24 (matching CI) and pnpm 8.6.1 (pinned in `package.json`). From the
+repository root, install and validate code or command changes:
 
 ```sh
 pnpm install --frozen-lockfile
@@ -95,74 +95,50 @@ pnpm run typecheck
 pnpm run build
 ```
 
-`build` builds the workspace package locally, including copying the two supported
-lists into its `public/` and `dist/` directories. It does not publish anything.
-There is no automated test suite. `typecheck` checks the root maintenance code
-with its CommonJS configuration. The package has a separate ES module configuration
-and its types are checked by the declaration build in `build`.
+`typecheck` checks CommonJS maintenance code; `build` copies the supported lists
+and builds the ES module package with its own configuration and declaration check.
+There is no automated test suite.
 
 ### Update the token lists
 
-The CMS is the source for routine updates. Choose the release version and keep
-`package.json` and `packages/tokenlist/package.json` in sync before fetching:
-`fetch:cms` reads the root version into the generated list. Run each step from
-the root and review its output before continuing.
-
-```sh
-pnpm run fetch:cms
-pnpm run order:tokenlist
-pnpm run filter:mainnet
-pnpm run copy:docs
-pnpm run build
-```
+The CMS is the source for routine updates. Set the same release version in
+`package.json` and `packages/tokenlist/package.json` before fetching; `fetch:cms`
+reads the root version. Run the following steps in order, reviewing each output:
 
 | Command | Input and effect |
 | --- | --- |
-| `fetch:cms` | Reads the live CMS, applies repository overrides and active-network filtering, validates the Uniswap schema, and overwrites `superfluid.extended.tokenlist.unordered.json`. |
-| `order:tokenlist` | Reads the unordered list and writes `superfluid.extended.tokenlist.json`, grouping chains in their existing order and sorting each chain by descending `orderingScore`. |
-| `filter:mainnet` | Reads the extended list and overwrites `superfluid.tokenlist.json`, excluding `testnet` tokens and retaining required underlying tokens. This is not a solvency-tier split. |
-| `copy:docs` | Copies only the default and extended lists to `docs/`, the GitHub Pages assets. This is a local copy, not a deployment. |
+| `pnpm run fetch:cms` | Reads the live CMS, applies repository overrides and active-network filtering, validates the schema, and overwrites `superfluid.extended.tokenlist.unordered.json`. |
+| `pnpm run order:tokenlist` | Reads the unordered list and writes `superfluid.extended.tokenlist.json`, preserving chain-group order and sorting each chain by descending `orderingScore`. |
+| `pnpm run filter:mainnet` | Reads the extended list and writes `superfluid.tokenlist.json`, excluding `testnet` tokens and retaining required underlying tokens. |
+| `pnpm run copy:docs` | Copies the default and extended lists to local GitHub Pages assets in `docs/`. |
+| `pnpm run build` | Builds the workspace package locally without publishing. |
 
-Review changes to the unordered, extended, default and `docs/` lists together.
-Keep icons in `docs/icons/`; fetching does not download them. Preserve the
-chain, name, icon and underlying-token overrides in `scripts/fetch-from-cms.ts`.
-The older automatic version command was removed: it consumed `DRAFT.tokenlist.json`
-and only bumped the root package version, which does not maintain this CMS workflow
-or the workspace package version. Set both package versions explicitly instead.
+Review the unordered, extended, default and `docs/` lists together. Icons are
+maintained manually in `docs/icons/`; fetching does not download them.
+`filter:mainnet` checks schema, underlying-token presence and duplicates per chain,
+but logs validation failures without a failing exit status, so inspect its output.
 
-### Compare and validate local changes
+### Compare lists
 
 ```sh
 pnpm run diff:lists superfluid.extended.tokenlist.json superfluid.extended.tokenlist.unordered.json
 pnpm run diff:lists --ignoreExtensions superfluid.extended.tokenlist.json superfluid.extended.tokenlist.unordered.json
 ```
 
-`diff:lists` writes an ignored JSON report under `diff-output/`. Paths are relative
-to the repository root. With no paths it compares the extended list against a
-local `DRAFT.tokenlist.json`. `--ignoreExtensions` suppresses changes whose only
-changed field is `extensions`, including ordering-score changes; additions and
-removals are still reported. It compares token entries, not list versions or timestamps.
+Both paths are required and relative to the repository root. Reports go to ignored
+`diff-output/` JSON files. `--ignoreExtensions` suppresses changes whose only changed
+field is `extensions`; additions and removals remain. List versions and timestamps
+are not compared.
 
-For code or command changes, run `typecheck` and `build`, then inspect `git diff`.
-For list updates, also inspect the generated lists and diff reports. The CMS
-fetch performs schema validation; `filter:mainnet` also uses the checks in
-`utils/index.ts` for underlying-token presence and duplicate addresses per chain.
-`filter:mainnet` and some legacy scripts log validation errors without a failing
-exit status, so read their output as well as checking the exit code.
+### Occasional maintenance and publishing
 
-### Occasional maintenance
-
-These commands are independent tools, not steps in the CMS update sequence:
-
-| Command | Purpose and cautions |
+| Command | Purpose |
 | --- | --- |
-| `editor` | Serves a JSON editor at `http://localhost:3000`, initially loading the default list. The Get content button displays JSON for manual copying; it does not save a file. |
-| `codegen:subgraph` | Regenerates committed `subgraph/.graphclient/` from the GraphQL query/configuration. Requires access to the configured subgraph; use when changing those inputs. |
-| `legacy:bootstrap` | Queries subgraphs and writes `DRAFT.tokenlist.json`. It bypasses CMS curation and overrides; use only for deliberate subgraph investigation, then compare manually. |
-| `legacy:attach-solvency` | Rewrites extended-list solvency tags from `solvency-categories.csv`, assigning C when no row matches. The CSV is historical; verify it before use. This is not part of routine updates. |
-| `ipfs:publish <list.json>` | Validates and pins a list to IPFS using `PINATA_API_KEY` and `PINATA_SECRET` from `.env`. This writes externally; run only for an explicitly requested publication. |
+| `pnpm run editor` | Serves the default list in a JSON editor at `http://localhost:3000`. Get content displays JSON for manual copying; it does not save a file. |
+| `pnpm run codegen:subgraph` | Regenerates committed `subgraph/.graphclient/` from its query/configuration, contacting the configured subgraph. |
+| `pnpm run ipfs:publish <list.json>` | Validates and pins a list to IPFS using `PINATA_API_KEY` and `PINATA_SECRET` from local `.env`. |
 
-NPM publishing is separate: the manually dispatched
-[release workflow](.github/workflows/npm-publish.yml) installs with the frozen
-lockfile, builds the workspace package, and publishes using trusted publishing.
-Do not run it as a validation check.
+The manually dispatched [release workflow](.github/workflows/npm-publish.yml)
+installs with the frozen lockfile, builds the workspace package, and publishes to
+NPM through trusted publishing. IPFS and NPM publishing write externally and are
+not validation checks.
