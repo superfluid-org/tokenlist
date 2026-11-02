@@ -4,18 +4,18 @@
   "version": "5.48.0",
   "license": "MIT",
   "scripts": {
-    "tsc": "tsc --noEmit",
-    "1.bootstrap": "ts-node scripts/bootstrap.ts",
-    "2.diff-lists": "ts-node scripts/diff-lists.ts $1 $2 $3",
-    "3.update:version": "ts-node scripts/update-version.ts $1",
-    "X.attach:solvency": "ts-node scripts/attach-solvency-tags.ts",
-    "4.split:tags": "ts-node scripts/split-by-tags.ts",
-    "5.copy:gh-pages": "shx cp ./superfluid{,.**}.tokenlist.json ./docs",
+    "typecheck": "tsc --noEmit",
     "fetch:cms": "ts-node scripts/fetch-from-cms.ts",
     "order:tokenlist": "ts-node scripts/order-tokenlist.ts",
-    "editor": "npx ts-node ./editor/server.ts",
-    "ipfs:publish": "ts-node scripts/publish.ts $1",
-    "superfluid-graphql-codegen": "graphclient build --dir ./subgraph"
+    "filter:mainnet": "ts-node scripts/split-by-tags.ts",
+    "copy:docs": "shx cp superfluid.tokenlist.json superfluid.extended.tokenlist.json docs/",
+    "build": "pnpm --filter @superfluid-finance/tokenlist build",
+    "diff:lists": "ts-node scripts/diff-lists.ts",
+    "editor": "ts-node editor/server.ts",
+    "codegen:subgraph": "graphclient build --dir ./subgraph",
+    "legacy:bootstrap": "ts-node scripts/bootstrap.ts",
+    "legacy:attach-solvency": "ts-node scripts/attach-solvency-tags.ts",
+    "ipfs:publish": "ts-node scripts/publish.ts"
   },
   "devDependencies": {
     "@graphprotocol/client-cli": "^2.2.20",

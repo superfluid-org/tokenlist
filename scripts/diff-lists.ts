@@ -3,9 +3,21 @@ import fs from "fs";
 import path from "path";
 import isEmpty from "lodash/isEmpty";
 
-const ignoreExtensions = process.argv[2];
-let listA = process.argv[3];
-let listB = process.argv[4];
+const args = process.argv.slice(2);
+const ignoreExtensions = args[0] === "--ignoreExtensions";
+const paths = ignoreExtensions ? args.slice(1) : args;
+
+if (
+  (paths.length !== 0 && paths.length !== 2) ||
+  paths.some((arg) => arg.startsWith("--"))
+) {
+  console.error(
+    "Usage: pnpm run diff:lists [--ignoreExtensions] [listA.json listB.json]"
+  );
+  process.exit(1);
+}
+
+let [listA, listB] = paths;
 
 if (!listA && !listB) {
   console.info("Usage: lists not provided, using current version and draft.");
@@ -35,7 +47,7 @@ const getFileName = (input: string) =>
 
 let diff = diffTokenLists(listAContents.tokens, listBContents.tokens);
 
-if (ignoreExtensions == "--ignoreExtensions") {
+if (ignoreExtensions) {
   Object.entries(diff.changed).forEach(([network, changeData]) => {
     const parsedNetwork = Number(network);
     Object.entries(changeData).forEach(([address, changes]) => {
@@ -48,10 +60,6 @@ if (ignoreExtensions == "--ignoreExtensions") {
       delete diff.changed[parsedNetwork];
     }
   });
-} else if (ignoreExtensions) {
-  console.info(
-    `Received unknown argument: ${ignoreExtensions}, expected --ignoreExtensions`
-  );
 }
 
 fs.writeFileSync(
