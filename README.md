@@ -99,6 +99,29 @@ pnpm run build
 and builds the ES module package with its own configuration and declaration check.
 There is no automated test suite.
 
+### Choose the release version
+
+Compare the proposed lists with the last released lists and use the highest
+applicable bump across the default and extended lists:
+
+| Change | Bump | Example from `5.48.0` |
+| --- | --- | --- |
+| Remove a token, or change its address or chain ID | Major | `6.0.0` |
+| Add tokens without removing any | Minor | `5.49.0` |
+| Change existing token metadata, such as name, symbol, decimals or `logoURI`, without additions or removals | Patch | `5.48.1` |
+
+These follow the [Token Lists versioning rules](https://github.com/Uniswap/token-lists#semantic-versioning).
+Reset lower components on major/minor bumps. For mixed changes, major takes
+precedence over minor, then patch. If there are no list changes, no list-version
+bump is needed.
+
+Set the chosen version in both `package.json` and
+`packages/tokenlist/package.json`. CMS fetching embeds the root version in the
+unordered list; ordering and filtering preserve it. If you choose a different
+version after generating the lists, synchronize both manifests and the three root
+list JSON `version` fields, then copy to docs and build again. This avoids
+refetching over manual icon edits.
+
 ### Update the token lists
 
 The CMS is the source for routine updates. Set the same release version in
