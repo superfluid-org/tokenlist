@@ -10,23 +10,16 @@
     "3.filter:mainnet": "ts-node scripts/split-by-tags.ts",
     "4.copy:docs": "shx cp superfluid.tokenlist.json superfluid.extended.tokenlist.json docs/",
     "build": "pnpm --filter @superfluid-finance/tokenlist build",
-    "diff:lists": "ts-node scripts/diff-lists.ts",
-    "codegen:subgraph": "graphclient build --dir ./subgraph"
+    "diff:lists": "ts-node scripts/diff-lists.ts"
   },
   "devDependencies": {
-    "@graphprotocol/client-cli": "^2.2.20",
     "@superfluid-finance/metadata": "^1.6.5",
     "@types/lodash": "^4.17.7",
     "@types/node": "^18.19.46",
-    "@types/node-fetch": "^2.6.11",
-    "@uniswap/token-list-bridge-utils": "^1.3.3",
     "@uniswap/token-lists": "1.0.0-beta.34",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
-    "graphql": "^16.9.0",
     "lodash": "^4.17.21",
-    "node-fetch": "2.6.3",
-    "rimraf": "^5.0.10",
     "shx": "^0.3.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
