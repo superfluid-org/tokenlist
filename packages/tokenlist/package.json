@@ -11,8 +11,8 @@
     "README.md"
   ],
   "scripts": {
-    "build": "rimraf ./dist && rimraf ./public/* && pnpm copy-tokenlist && tsup",
-    "copy-tokenlist": "shx cp ./../../superfluid{,.**}.tokenlist.json ./public"
+    "build": "rimraf ./dist && rimraf --glob \"./public/*.tokenlist.json\" && pnpm copy-tokenlist && tsup",
+    "copy-tokenlist": "shx cp ../../superfluid.tokenlist.json ../../superfluid.extended.tokenlist.json ./public"
   },
   "dependencies": {
     "@uniswap/token-lists": "1.0.0-beta.34"
