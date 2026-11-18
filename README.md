@@ -15,36 +15,18 @@ import tokenlist, {
 
 // ...later
 
-const underlyingTokens = extendedTokenlist.tokens.filter((token) => token.tags.includes("underlying"))
+const underlyingTokens = extendedSuperTokenList.tokens.filter((token) => token.tags.includes("underlying"))
 ```
 
 
 ## How to List a Token
 
-To propose adding or updating a token, follow the steps below:
+Tokens are not listed by editing the JSON files in this repository. The CMS is the source, and a refetch overwrites manual edits.
 
-### 1. **Prerequisites**:
-
-   - Prepare all necessary token information, such as token contract address, token symbol, token name, decimals, logo URI, and other relevant data.
-
-### 2. **Submit a Proposal**:
-   - Fork the repository.
-   - Add or update the token's details in the appropriate JSON file.
-   - Create a pull request with a clear title and description detailing the changes and the reasons behind them.
-
-### 3. **Review Process**:
-   - Our team will review the proposal, which might include verifying the token's authenticity, its source code (if available), liquidity, market cap, and other essential metrics.
-   - If further information is required, our team will comment on the pull request.
-
-### 4. **Feedback and Updates**:
-   - Based on the feedback, update the pull request if necessary. Respond to any comments and provide clarifications where needed.
-
-### 5. **Approval & Merge**:
-   - Once the review process is complete and the token meets all criteria, the pull request will be approved.
-   - The changes will be merged, and the token will be listed, and a new package version will be released.
-
-### 6. **Post-Listing**:
-   - Users and token owners can propose corrections to listed token details through a pull request.
+1. Request the listing by opening an issue at https://github.com/superfluid-org/assets/issues.
+2. A GitHub Action in [protocol-monorepo](https://github.com/superfluid-org/protocol-monorepo) (`handler.list-super-token.yml`) lists the token on-chain in the resolver.
+3. The CMS syncs the listed tokens from the subgraph periodically.
+4. The token list published from this repository fetches the latest list from the CMS (see [Development](#development)).
 
 **Note**: Listing is not an endorsement. Always do your own research before interacting or investing in any token.
 
